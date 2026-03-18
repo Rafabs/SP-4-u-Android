@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/mapFragment"
+        android:icon="@drawable/ic_map"
+        android:title="@string/nav_map" />
+
+    <item
+        android:id="@+id/linhasFragment"
+        android:icon="@drawable/ic_directions_bus"
+        android:title="@string/nav_linhas" />
+
+    <item
+        android:id="@+id/aqiFragment"
+        android:icon="@drawable/ic_air"
+        android:title="@string/nav_aqi" />
+
+</menu>

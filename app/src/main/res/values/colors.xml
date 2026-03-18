@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!-- App -->
+    <color name="sp_blue">#0055A5</color>
+    <color name="sp_blue_dark">#003D7A</color>
+    <color name="sp_green">#007A53</color>
+
+    <!-- Linhas do Metrô SP -->
+    <color name="linha1_azul">#0455A1</color>
+    <color name="linha2_verde">#007E5E</color>
+    <color name="linha3_vermelha">#EE372F</color>
+    <color name="linha4_amarela">#FFD400</color>
+    <color name="linha5_lilas">#9B2990</color>
+    <color name="linha6_laranja">#F2841B</color>
+
+    <!-- Linhas do CPTM -->
+    <color name="linha7_rubi">#CA016B</color>
+    <color name="linha8_diamante">#97A0A8</color>
+    <color name="linha9_esmeralda">#01A28A</color>
+    <color name="linha10_turquesa">#009AB8</color>
+    <color name="linha11_coral">#F0532D</color>
+    <color name="linha12_safira">#133688</color>
+    <color name="linha13_jade">#00B352</color>
+    <color name="linha15_prata">#9E9E9E</color>
+    <color name="linha17_ouro">#CBA135</color>
+
+    <!-- AQI -->
+    <color name="aqi_good">#00E400</color>
+    <color name="aqi_moderate">#FFFF00</color>
+    <color name="aqi_unhealthy_sensitive">#FF7E00</color>
+    <color name="aqi_unhealthy">#FF0000</color>
+    <color name="aqi_very_unhealthy">#8F3F97</color>
+    <color name="aqi_hazardous">#7E0023</color>
+    <color name="aqi_unavailable">#9E9E9E</color>
+</resources>

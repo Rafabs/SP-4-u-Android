@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sampa 4u</string>
+    <string name="nav_map">Mapa</string>
+    <string name="nav_linhas">Linhas</string>
+    <string name="nav_aqi">Qualidade do Ar</string>
+</resources>
