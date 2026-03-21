@@ -4,10 +4,41 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
 
-    <!-- App -->
-    <color name="sp_blue">#0055A5</color>
-    <color name="sp_blue_dark">#003D7A</color>
-    <color name="sp_green">#007A53</color>
+    <!-- Primária (vermelho SP) -->
+    <color name="sp_red">#D40000</color>
+    <color name="sp_red_dark">#2D0000</color>
+    <color name="sp_red_light">#FF3333</color>
+
+    <!-- Fundos (modo escuro) -->
+    <color name="bg_dark">#121212</color>
+    <color name="bg_card_dark">#1E1E1E</color>
+    <color name="bg_header_dark">#2D0000</color>
+    <color name="border_dark">#333333</color>
+    <color name="code_dark">#3D3D3D</color>
+
+    <!-- Fundos (modo claro) -->
+    <color name="bg_light">#F0F2F5</color>
+    <color name="bg_card_light">#FFFFFF</color>
+    <color name="bg_header_light">#B30000</color>
+    <color name="border_light">#DCDCDC</color>
+
+    <!-- Textos -->
+    <color name="text_primary_dark">#E0E0E0</color>
+    <color name="text_secondary_dark">#A0A0A0</color>
+    <color name="text_primary_light">#1A1A1A</color>
+    <color name="text_secondary_light">#4A4A4A</color>
+
+    <!-- Status operacional -->
+    <color name="status_blue_bg">#000655</color>
+    <color name="status_blue_text">#00A6FF</color>
+    <color name="status_yellow_bg">#554800</color>
+    <color name="status_yellow_text">#FFD900</color>
+    <color name="status_green_bg">#00550E</color>
+    <color name="status_green_text">#00FF1E</color>
+    <color name="status_red_bg">#550000</color>
+    <color name="status_red_text">#FF0000</color>
+    <color name="status_gray_bg">#000000</color>
+    <color name="status_gray_text">#FFFFFF</color>
 
     <!-- Linhas do Metrô SP -->
     <color name="linha1_azul">#0455A1</color>
@@ -16,6 +47,8 @@
     <color name="linha4_amarela">#FFD400</color>
     <color name="linha5_lilas">#9B2990</color>
     <color name="linha6_laranja">#F2841B</color>
+    <color name="linha15_prata">#9E9E9E</color>
+    <color name="linha17_ouro">#CBA135</color>
 
     <!-- Linhas do CPTM -->
     <color name="linha7_rubi">#CA016B</color>
@@ -25,15 +58,4 @@
     <color name="linha11_coral">#F0532D</color>
     <color name="linha12_safira">#133688</color>
     <color name="linha13_jade">#00B352</color>
-    <color name="linha15_prata">#9E9E9E</color>
-    <color name="linha17_ouro">#CBA135</color>
-
-    <!-- AQI -->
-    <color name="aqi_good">#00E400</color>
-    <color name="aqi_moderate">#FFFF00</color>
-    <color name="aqi_unhealthy_sensitive">#FF7E00</color>
-    <color name="aqi_unhealthy">#FF0000</color>
-    <color name="aqi_very_unhealthy">#8F3F97</color>
-    <color name="aqi_hazardous">#7E0023</color>
-    <color name="aqi_unavailable">#9E9E9E</color>
 </resources>

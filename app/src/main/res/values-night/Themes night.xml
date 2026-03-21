@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.SP4u" parent="Theme.Material3.Light.NoActionBar">
+    <style name="Theme.SP4u" parent="Theme.Material3.Dark.NoActionBar">
         <!-- Cor primária: vermelho SP -->
         <item name="colorPrimary">@color/sp_red</item>
         <item name="colorPrimaryVariant">@color/sp_red_dark</item>
@@ -10,14 +10,14 @@
         <item name="colorSecondary">@color/sp_red_light</item>
         <item name="colorOnSecondary">@color/white</item>
 
-        <!-- Fundos -->
-        <item name="android:colorBackground">@color/bg_light</item>
-        <item name="colorSurface">@color/bg_card_light</item>
-        <item name="colorOnSurface">@color/text_primary_light</item>
+        <!-- Fundos escuros -->
+        <item name="android:colorBackground">@color/bg_dark</item>
+        <item name="colorSurface">@color/bg_card_dark</item>
+        <item name="colorOnSurface">@color/text_primary_dark</item>
 
         <!-- Texto -->
-        <item name="android:textColorPrimary">@color/text_primary_light</item>
-        <item name="android:textColorSecondary">@color/text_secondary_light</item>
+        <item name="android:textColorPrimary">@color/text_primary_dark</item>
+        <item name="android:textColorSecondary">@color/text_secondary_dark</item>
 
         <!-- Navigation Drawer -->
         <item name="navigationViewStyle">@style/Widget.SP4u.NavigationView</item>
@@ -25,6 +25,6 @@
 
     <style name="Widget.SP4u.NavigationView" parent="Widget.Material3.NavigationView">
         <item name="itemIconTint">@color/sp_red</item>
-        <item name="itemTextColor">@color/text_primary_light</item>
+        <item name="itemTextColor">@color/text_primary_dark</item>
     </style>
 </resources>
