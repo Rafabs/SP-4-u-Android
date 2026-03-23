@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.homeFragment,
-                R.id.linhasFragment,
+                R.id.sptransFragment,
                 R.id.artespFragment,
                 R.id.aqiFragment,
                 R.id.exploreFragment
@@ -39,6 +39,13 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.navView.setupWithNavController(navController)
+
+        // Verificar se ja tem dados importados
+        val prefs = getSharedPreferences("sp4u_prefs", MODE_PRIVATE)
+        val imported = prefs.getBoolean("gtfs_imported", false)
+        if (!imported) {
+            navController.navigate(R.id.importFragment)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

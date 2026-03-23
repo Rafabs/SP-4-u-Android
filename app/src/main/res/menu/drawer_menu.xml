@@ -9,9 +9,9 @@
             android:title="@string/nav_home" />
 
         <item
-            android:id="@+id/linhasFragment"
+            android:id="@+id/sptransFragment"
             android:icon="@drawable/ic_directions_bus"
-            android:title="@string/nav_linhas" />
+            android:title="SPTrans" />
 
         <item
             android:id="@+id/artespFragment"

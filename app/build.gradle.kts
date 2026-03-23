@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -30,9 +31,17 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
+
+    configurations.all {
+        exclude(group = "com.intellij", module = "annotations")
+    }
+}
+
+kotlin {
+    jvmToolchain(21)
 }
 
 dependencies {
@@ -50,6 +59,15 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:5.3.2")
     implementation("org.osmdroid:osmdroid-android:6.1.20")
     implementation("androidx.recyclerview:recyclerview:1.4.0")
+
+    // Room (banco de dados local)
+    implementation("androidx.room:room-runtime:2.8.4")
+    implementation("androidx.room:room-ktx:2.8.4")
+    ksp("androidx.room:room-compiler:2.8.4")
+
+    // WorkManager (download em background)
+    implementation("androidx.work:work-runtime-ktx:2.11.1")
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.3.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.7.0")

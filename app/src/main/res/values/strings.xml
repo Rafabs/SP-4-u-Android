@@ -3,7 +3,7 @@
     <string name="app_name">Sampa 4u</string>
     <string name="app_subtitle">Mobilidade urbana de SP</string>
     <string name="nav_home">Início</string>
-    <string name="nav_linhas">Linhas</string>
+    <string name="nav_sptrans">SPTrans</string>
     <string name="nav_artesp">ARTESP</string>
     <string name="nav_aqi">Qualidade do Ar</string>
     <string name="nav_explore">Explore</string>

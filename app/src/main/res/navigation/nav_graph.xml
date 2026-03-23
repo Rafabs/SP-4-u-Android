@@ -10,9 +10,9 @@
         android:label="@string/nav_home" />
 
     <fragment
-        android:id="@+id/linhasFragment"
-        android:name="com.rafabs.sp4u.ui.linhas.LinhasFragment"
-        android:label="@string/nav_linhas" />
+        android:id="@+id/sptransFragment"
+        android:name="com.rafabs.sp4u.ui.sptrans.SptransFragment"
+        android:label="SPTrans" />
 
     <fragment
         android:id="@+id/artespFragment"
@@ -29,4 +29,8 @@
         android:name="com.rafabs.sp4u.ui.explore.ExploreFragment"
         android:label="@string/nav_explore" />
 
+    <fragment
+        android:id="@+id/importFragment"
+        android:name="com.rafabs.sp4u.ui.import_gtfs.ImportFragment"
+        android:label="Importar dados" />
 </navigation>

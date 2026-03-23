@@ -11,6 +11,36 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <LinearLayout
+            android:id="@+id/banner_atualizacao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#D40000"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp"
+            android:visibility="gone"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:id="@+id/tv_banner_msg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="&#8594;"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:layout_marginStart="8dp"/>
+
+        </LinearLayout>
+
         <!-- Card Sobre -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"

@@ -7,12 +7,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rafabs.sp4u.R
 import com.rafabs.sp4u.data.model.Linha
-import com.rafabs.sp4u.databinding.ItemLinhaBinding
+import com.rafabs.sp4u.databinding.ItemLinhaMetroBinding
 
-class LinhaAdapter(private val linhas: List<Linha>) :
-    RecyclerView.Adapter<LinhaAdapter.LinhaViewHolder>() {
+class MetroAdapter(private var linhas: List<Linha>) :
+    RecyclerView.Adapter<MetroAdapter.ViewHolder>() {
 
-    inner class LinhaViewHolder(private val binding: ItemLinhaBinding) :
+    fun updateList(novaLista: List<Linha>) {
+        linhas = novaLista
+        notifyDataSetChanged()
+    }
+
+    class ViewHolder(private val binding: ItemLinhaMetroBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(linha: Linha) {
@@ -35,14 +40,14 @@ class LinhaAdapter(private val linhas: List<Linha>) :
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LinhaViewHolder {
-        val binding = ItemLinhaBinding.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding = ItemLinhaMetroBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
-        return LinhaViewHolder(binding)
+        return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: LinhaViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(linhas[position])
     }
 
