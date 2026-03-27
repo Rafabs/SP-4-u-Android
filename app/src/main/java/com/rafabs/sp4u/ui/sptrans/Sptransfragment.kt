@@ -55,7 +55,7 @@ class SptransFragment : Fragment() {
                         adapter.updateList(it)
                     }
                 } else {
-                    db.routeDao().searchRoutes(query).collectLatest {
+                    db.routeDao().searchRoutes(query, "SPTRANS").collectLatest {
                         adapter.updateList(it)
                     }
                 }

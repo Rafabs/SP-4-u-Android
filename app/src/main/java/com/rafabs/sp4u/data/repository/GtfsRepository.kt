@@ -101,8 +101,9 @@ class GtfsRepository(private val context: Context) {
         onProgress: (String) -> Unit
     ) = withContext(Dispatchers.IO) {
 
-        // 1. routes.txt
-        val routesFile = GtfsDownloader.download(context, "routes", onProgress)
+        val prefix = source.lowercase()
+
+        val routesFile = GtfsDownloader.download(context, "${prefix}_routes", onProgress)
         if (routesFile != null) {
             onProgress("Importando rotas...")
             val routes = processRoutes(routesFile, source)
@@ -111,8 +112,7 @@ class GtfsRepository(private val context: Context) {
             onProgress("${routes.size} rotas importadas")
         }
 
-        // 2. stops.txt
-        val stopsFile = GtfsDownloader.download(context, "stops", onProgress)
+        val stopsFile = GtfsDownloader.download(context, "${prefix}_stops", onProgress)
         if (stopsFile != null) {
             onProgress("Importando paradas...")
             val stops = processStops(stopsFile, source)
@@ -121,13 +121,9 @@ class GtfsRepository(private val context: Context) {
             onProgress("${stops.size} paradas importadas")
         }
 
-        // 3. shapes.txt
-        // shapes.txt sera implementado futuramente com processamento otimizado
-        // val shapesFile = GtfsDownloader.download(context, "shapes", onProgress)
-
         onProgress("Importacao concluida!")
     }
 
     fun getAllRoutes(source: String) = db.routeDao().getRoutesBySource(source)
-    fun searchRoutes(query: String)  = db.routeDao().searchRoutes(query)
+    fun searchRoutes(query: String, source: String) = db.routeDao().searchRoutes(query, source)
 }
