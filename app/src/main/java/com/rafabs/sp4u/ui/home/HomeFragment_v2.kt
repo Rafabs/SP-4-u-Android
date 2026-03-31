@@ -26,7 +26,7 @@ class HomeFragment : Fragment() {
         Linha("L03", "03 - Vermelha",   "#EE372F", "METRÔ"),
         Linha("L04", "04 - Amarela",    "#FFF000", "VIAQUATRO"),
         Linha("L05", "05 - Lilás",      "#9B3894", "VIAMOBILIDADE"),
-        Linha("L06", "06 - Laranja",    "#F2841B", "LINHA UNI"),
+        Linha("L06", "06 - Laranja",    "#000000", "LINHA UNI"),
         Linha("L07", "07 - Rubi",       "#CA016B", "TIC TRENS"),
         Linha("L08", "08 - Diamante",   "#97A098", "VIAMOBILIDADE"),
         Linha("L09", "09 - Esmeralda",  "#01A9A7", "VIAMOBILIDADE"),
@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
         Linha("L12", "12 - Safira",     "#133C8D", "CPTM"),
         Linha("L13", "13 - Jade",       "#00B352", "CPTM"),
         Linha("L15", "15 - Prata",      "#C0C0C0", "METRÔ"),
-        Linha("L17", "17 - Ouro",       "#CBA135", "VIAMOBILIDADE")
+        Linha("L17", "17 - Ouro",       "#000000", "METRÔ")
     )
 
     override fun onCreateView(
@@ -68,9 +68,9 @@ class HomeFragment : Fragment() {
             if (remoteSptrans != null && remoteSptrans != localSptrans) {
                 exibirBanner(
                     msg = if (localSptrans == null)
-                        "Dados SPTrans nao importados. Clique para baixar."
+                        "Dados SPTrans não importados. Clique para baixar."
                     else
-                        "Nova versao SPTrans disponivel ($remoteSptrans). Clique para atualizar.",
+                        "Nova versão SPTrans disponivel ($remoteSptrans). Clique para atualizar.",
                     onClick = {
                         lifecycleScope.launch {
                             _binding?.bannerAtualizacao?.isEnabled = false
@@ -84,7 +84,7 @@ class HomeFragment : Fragment() {
                             requireActivity().runOnUiThread {
                                 _binding?.bannerAtualizacao?.visibility = View.GONE
                             }
-                            // Apos SPTrans, verificar EMTU
+                            // Apás SPTrans, verificar EMTU
                             verificarEmtu(prefs)
                         }
                     }
@@ -103,9 +103,9 @@ class HomeFragment : Fragment() {
             requireActivity().runOnUiThread {
                 exibirBanner(
                     msg = if (localEmtu == null)
-                        "Dados ARTESP/EMTU nao importados. Clique para baixar."
+                        "Dados ARTESP/EMTU não importados. Clique para baixar."
                     else
-                        "Nova versao ARTESP/EMTU disponivel ($remoteEmtu). Clique para atualizar.",
+                        "Nova versão ARTESP/EMTU disponivel ($remoteEmtu). Clique para atualizar.",
                     onClick = {
                         lifecycleScope.launch {
                             _binding?.bannerAtualizacao?.isEnabled = false

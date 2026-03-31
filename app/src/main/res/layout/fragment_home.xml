@@ -136,14 +136,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="CCM | Centro de Controle Metroferroviario"
+                    android:text="CCM | Centro de Controle Multimodal"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="10dp"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Os status operacionais exibidos acima sao extraidos da API publica do Centro de Controle Metroferroviario (CCM) da ARTESP, disponivel em ccm.artesp.sp.gov.br. Os dados sao coletados automaticamente a cada 3 horas via GitHub Actions e cobrem todas as linhas do sistema metroferroviario paulista, incluindo Metro, CPTM e Concessionarias."
+                    android:text="Os dados são coletados automaticamente a cada 10 minutos via GitHub Actions e cobrem todas as linhas do sistema metroferroviário paulista — incluindo Metrô, CPTM e Concessionárias."
                     android:textSize="14sp"
                     android:lineSpacingMultiplier="1.5"/>
             </LinearLayout>

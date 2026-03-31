@@ -2,30 +2,55 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvCityName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Estação"
-        android:textSize="20sp" />
+    <!-- Mapa OSMDroid -->
+    <org.osmdroid.views.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
-    <TextView
-        android:id="@+id/tvAqiValue"
-        android:layout_width="wrap_content"
+    <!-- Card info da estação selecionada -->
+    <LinearLayout
+        android:id="@+id/cardEstacao"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="--"
-        android:textSize="64sp"
-        android:textStyle="bold" />
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="?attr/colorSurface"
+        android:visibility="gone">
 
-    <TextView
-        android:id="@+id/tvAqiStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Qualidade do Ar"
-        android:textSize="18sp" />
+        <TextView
+            android:id="@+id/tvCityName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvAqiValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:layout_marginEnd="12dp"/>
+
+            <TextView
+                android:id="@+id/tvAqiStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>
