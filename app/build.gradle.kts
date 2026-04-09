@@ -59,7 +59,7 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:5.3.2")
     implementation("org.osmdroid:osmdroid-android:6.1.20")
     implementation("androidx.recyclerview:recyclerview:1.4.0")
-
+        
     // Room (banco de dados local)
     implementation("androidx.room:room-runtime:2.8.4")
     implementation("androidx.room:room-ktx:2.8.4")

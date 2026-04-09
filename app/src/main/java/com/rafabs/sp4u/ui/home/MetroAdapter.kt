@@ -4,23 +4,21 @@ import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.rafabs.sp4u.R
 import com.rafabs.sp4u.data.model.Linha
 import com.rafabs.sp4u.databinding.ItemLinhaMetroBinding
 
-class MetroAdapter(private var linhas: List<Linha>) :
-    RecyclerView.Adapter<MetroAdapter.ViewHolder>() {
-
-    fun updateList(novaLista: List<Linha>) {
-        linhas = novaLista
-        notifyDataSetChanged()
-    }
+class MetroAdapter(
+    private val onItemClick: (Linha) -> Unit
+) : ListAdapter<Linha, MetroAdapter.ViewHolder>(DiffCallback()) {
 
     class ViewHolder(private val binding: ItemLinhaMetroBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(linha: Linha) {
+        fun bind(linha: Linha, onItemClick: (Linha) -> Unit) {
             binding.tvNome.text = linha.nome
             binding.tvHex.text = linha.cor
             binding.tvEmpresa.text = linha.empresa
@@ -34,9 +32,23 @@ class MetroAdapter(private var linhas: List<Linha>) :
             }
             binding.viewCor.background = circle
 
-            binding.tvStatus.text = "Operacao Normal"
-            binding.tvStatus.setBackgroundResource(R.drawable.badge_status_green)
-            binding.tvStatus.setTextColor(Color.parseColor("#00FF1E"))
+            val (badgeRes, textColor) = when (linha.classificacao.lowercase()) {
+                "operacional", "normal", "especial" -> Pair(R.drawable.badge_status_green, "#00C853")
+                "velocidade", "impacto", "atividade", "parcial", "maiores" -> Pair(R.drawable.badge_status_yellow, "#FFC107")
+                "paralisada", "interrompida" -> Pair(R.drawable.badge_status_red, "#FF3B30")
+                else -> Pair(R.drawable.badge_status_gray, "#9E9E9E")
+            }
+            binding.tvStatus.text = linha.status
+            binding.tvStatus.setBackgroundResource(badgeRes)
+            binding.tvStatus.setTextColor(Color.parseColor(textColor))
+
+            if (linha.descricao.isNotBlank()) {
+                binding.root.setOnClickListener { onItemClick(linha) }
+                binding.root.isClickable = true
+            } else {
+                binding.root.setOnClickListener(null)
+                binding.root.isClickable = false
+            }
         }
     }
 
@@ -48,8 +60,14 @@ class MetroAdapter(private var linhas: List<Linha>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(linhas[position])
+        holder.bind(getItem(position), onItemClick)
     }
 
-    override fun getItemCount() = linhas.size
+    class DiffCallback : DiffUtil.ItemCallback<Linha>() {
+        override fun areItemsTheSame(oldItem: Linha, newItem: Linha): Boolean =
+            oldItem.codigo == newItem.codigo
+
+        override fun areContentsTheSame(oldItem: Linha, newItem: Linha): Boolean =
+            oldItem == newItem
+    }
 }
