@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Sampa 4u</string>
-    <string name="app_subtitle">Mobilidade urbana de SP</string>
+    <string name="app_slogan">Mobilidade urbana de São Paulo</string>
+    <string name="desc_logo">Logo do Sampa 4u</string>
     <string name="nav_home">Início</string>
+    <string name="map_rede">Mapa da Rede</string>
+    <string name="nav_news">Notícias</string>
     <string name="nav_sptrans">SPTrans</string>
-    <string name="nav_artesp">ARTESP</string>
     <string name="nav_aqi">Qualidade do Ar</string>
-    <string name="nav_explore">Explore</string>
+    <string name="nav_explore">Explore SP</string>
     <string name="open_drawer">Abrir menu</string>
     <string name="close_drawer">Fechar menu</string>
 </resources>

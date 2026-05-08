@@ -11,14 +11,15 @@ android {
         applicationId = "com.rafabs.sp4u"
         minSdk = 26
         targetSdk = 36
-        versionCode = 1
-        versionName = "26.03.0"
+        versionCode = 2 // Incrementar +1 quando atualizar o código
+        versionName = "26.05.2"  // Inserir versão quando atualizar o código
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -28,6 +29,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
     compileOptions {
@@ -59,7 +61,7 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:5.3.2")
     implementation("org.osmdroid:osmdroid-android:6.1.20")
     implementation("androidx.recyclerview:recyclerview:1.4.0")
-        
+    implementation("com.airbnb.android:lottie:6.7.1")
     // Room (banco de dados local)
     implementation("androidx.room:room-runtime:2.8.4")
     implementation("androidx.room:room-ktx:2.8.4")

@@ -4,30 +4,68 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
+    android:background="?attr/colorSurface"
     android:padding="32dp">
+
+    <!-- Logo / Badge -->
+    <ImageView
+        android:layout_width="320dp"
+        android:layout_height="120dp"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/fundo_branco_estendido"
+        android:contentDescription="Logo Sampa 4u"
+        android:scaleType="centerInside"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Olá, quase pronto..."
+        android:text="Sampa 4u"
         android:textSize="28sp"
         android:textStyle="bold"
+        android:textColor="?attr/colorOnSurface"
+        android:letterSpacing="0.02"
+        android:layout_marginBottom="4dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mobilidade urbana de São Paulo"
+        android:textSize="13sp"
+        android:textColor="?android:attr/textColorSecondary"
+        android:letterSpacing="0.05"
+        android:layout_marginBottom="32dp"/>
+
+    <View
+        android:layout_width="40dp"
+        android:layout_height="2dp"
+        android:background="#D40000"
+        android:layout_marginBottom="32dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Preparando sua experiencia..."
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="?attr/colorOnSurface"
         android:layout_marginBottom="8dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Para usar o app, precisamos baixar os dados de transporte (~8MB)."
-        android:textSize="15sp"
+        android:text="Precisamos baixar os dados iniciais de transporte para você (~8MB). Isso só acontece uma vez."
+        android:textSize="14sp"
         android:textAlignment="center"
-        android:lineSpacingMultiplier="1.5"
+        android:textColor="?android:attr/textColorSecondary"
+        android:lineSpacingMultiplier="1.6"
         android:layout_marginBottom="32dp"/>
 
     <Button
         android:id="@+id/btn_importar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Baixar dados"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:text="Baixar dados de transporte"
+        android:textSize="15sp"
         android:backgroundTint="#D40000"
         android:layout_marginBottom="24dp"/>
 
@@ -44,6 +82,7 @@
         android:layout_height="wrap_content"
         android:textSize="13sp"
         android:textAlignment="center"
+        android:textColor="?android:attr/textColorSecondary"
         android:visibility="gone"/>
 
 </LinearLayout>

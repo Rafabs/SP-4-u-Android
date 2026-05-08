@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -23,26 +24,47 @@ class MetroAdapter(
             binding.tvHex.text = linha.cor
             binding.tvEmpresa.text = linha.empresa
 
-            val circle = GradientDrawable()
-            circle.shape = GradientDrawable.OVAL
-            try {
-                circle.setColor(Color.parseColor(linha.cor))
-            } catch (e: Exception) {
-                circle.setColor(Color.GRAY)
+            // Usando .toColorInt() do KTX para ser mais idiomático
+            val circle = GradientDrawable().apply {
+                shape = GradientDrawable.OVAL
+                try {
+                    setColor(linha.cor.toColorInt())
+                } catch (_: Exception) { // "_" remove o aviso de parâmetro não utilizado
+                    setColor(Color.GRAY)
+                }
             }
             binding.viewCor.background = circle
 
-            val (badgeRes, textColor) = when (linha.classificacao.lowercase()) {
-                "operacional", "normal", "especial" -> Pair(R.drawable.badge_status_green, "#00C853")
-                "velocidade", "impacto", "atividade", "parcial", "maiores" -> Pair(R.drawable.badge_status_yellow, "#FFC107")
-                "paralisada", "interrompida" -> Pair(R.drawable.badge_status_red, "#FF3B30")
+            // Se o erro de "Unresolved reference" persistir, verifique se no seu Model
+            // a classe Linha tem um "val status: Status" e se "Status" tem "situacao"
+            val statusObjeto = linha.status
+            val situacaoTexto = statusObjeto.situacao.lowercase()
+
+            val (badgeRes, textColor) = when {
+                situacaoTexto.contains("normal") || situacaoTexto.contains("operacional") -> {
+                    Pair(R.drawable.badge_status_green, "#00C853")
+                }
+                situacaoTexto.contains("velocidade") ||
+                        situacaoTexto.contains("intervalos") ||
+                        situacaoTexto.contains("parcial") ||
+                        situacaoTexto.contains("atividade") ||
+                        situacaoTexto.contains("impacto") -> {
+                    Pair(R.drawable.badge_status_yellow, "#FFC107")
+                }
+                situacaoTexto.contains("paralisada") ||
+                        situacaoTexto.contains("interrompida") ||
+                        situacaoTexto.contains("encerrada") -> {
+                    Pair(R.drawable.badge_status_red, "#FF3B30")
+                }
                 else -> Pair(R.drawable.badge_status_gray, "#9E9E9E")
             }
-            binding.tvStatus.text = linha.status
-            binding.tvStatus.setBackgroundResource(badgeRes)
-            binding.tvStatus.setTextColor(Color.parseColor(textColor))
 
-            if (linha.descricao.isNotBlank()) {
+            binding.tvStatus.text = statusObjeto.situacao
+            binding.tvStatus.setBackgroundResource(badgeRes)
+            binding.tvStatus.setTextColor(textColor.toColorInt())
+
+            // Verifique se no seu Model o campo é 'descricao' (sem cedilha)
+            if (statusObjeto.descricao.isNotBlank()) {
                 binding.root.setOnClickListener { onItemClick(linha) }
                 binding.root.isClickable = true
             } else {

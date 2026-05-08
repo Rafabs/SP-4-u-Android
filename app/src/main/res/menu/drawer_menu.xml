@@ -9,14 +9,25 @@
             android:title="@string/nav_home" />
 
         <item
+            android:id="@+id/MapredeFragment"
+            android:icon="@drawable/ic_map_pin_heart"
+            android:title="Mapa da Rede" />
+
+        <item
+            android:id="@+id/newsFragment"
+            android:icon="@drawable/ic_newspaper"
+            android:title="Notícias" />
+
+        <item
+            android:id="@+id/turismoFragment"
+            android:icon="@drawable/ic_home"
+            android:title="Turismo" />
+
+        <item
             android:id="@+id/sptransFragment"
             android:icon="@drawable/ic_directions_bus"
             android:title="SPTrans" />
 
-        <item
-            android:id="@+id/artespFragment"
-            android:icon="@drawable/ic_add_road"
-            android:title="@string/nav_artesp" />
 
         <item
             android:id="@+id/aqiFragment"
@@ -26,7 +37,7 @@
         <item
             android:id="@+id/exploreFragment"
             android:icon="@drawable/ic_map"
-            android:title="@string/nav_explore" />
+            android:title="Explore SP" />
 
     </group>
 

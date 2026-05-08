@@ -1,12 +1,15 @@
 package com.rafabs.sp4u.ui.home
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.edit
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -38,9 +41,17 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // BOTÃO WEB - Corrigido com toUri()
+        binding.btnAcessarWeb.setOnClickListener {
+            val webUrl = "https://rafabs.github.io/SP-4-u-Web/"
+            val intent = Intent(Intent.ACTION_VIEW, webUrl.toUri())
+            startActivity(intent)
+        }
+
         adapter = MetroAdapter { linha ->
             mostrarDialogDescricao(linha)
         }
+
         binding.recyclerLinhas.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerLinhas.adapter = adapter
         binding.recyclerLinhas.isNestedScrollingEnabled = false
@@ -58,9 +69,11 @@ class HomeFragment : Fragment() {
 
     private fun mostrarDialogDescricao(linha: Linha) {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Linha " + linha.nome)
-            .setMessage(linha.descricao)
-            .setPositiveButton("Fechar") { dialog, _ -> dialog.dismiss() }
+            .setTitle(linha.nome)
+            .setMessage(linha.status.descricao)
+            .setPositiveButton("Fechar") { dialog, _ ->
+                dialog.dismiss()
+            }
             .show()
     }
 
@@ -74,24 +87,11 @@ class HomeFragment : Fragment() {
             if (remoteSptrans != null && remoteSptrans != localSptrans) {
                 exibirBanner(
                     msg = if (localSptrans == null)
-                        "Dados SPTrans nao importados. Clique para baixar."
+                        "Dados SPTrans não importados. Clique para baixar."
                     else
-                        "Nova versao SPTrans disponivel ($remoteSptrans). Clique para atualizar.",
+                        "Nova versão SPTrans disponível ($remoteSptrans). Clique para atualizar.",
                     onClick = {
-                        lifecycleScope.launch {
-                            _binding?.bannerAtualizacao?.isEnabled = false
-                            val repo = GtfsRepository(requireContext())
-                            repo.importGtfs("SPTRANS") { status: String ->
-                                requireActivity().runOnUiThread {
-                                    _binding?.tvBannerMsg?.text = status
-                                }
-                            }
-                            prefs.edit { putString("gtfs_sptrans_version", remoteSptrans) }
-                            requireActivity().runOnUiThread {
-                                _binding?.bannerAtualizacao?.visibility = View.GONE
-                            }
-                            verificarEmtu(prefs)
-                        }
+                        executarImportacao(prefs, "SPTRANS", remoteSptrans)
                     }
                 )
                 return@launch
@@ -107,26 +107,32 @@ class HomeFragment : Fragment() {
             requireActivity().runOnUiThread {
                 exibirBanner(
                     msg = if (localEmtu == null)
-                        "Dados ARTESP/EMTU nao importados. Clique para baixar."
+                        "Dados ARTESP/EMTU não importados. Clique para baixar."
                     else
-                        "Nova versao ARTESP/EMTU disponivel ($remoteEmtu). Clique para atualizar.",
+                        "Nova versão ARTESP/EMTU disponível ($remoteEmtu). Clique para atualizar.",
                     onClick = {
-                        lifecycleScope.launch {
-                            _binding?.bannerAtualizacao?.isEnabled = false
-                            val repo = GtfsRepository(requireContext())
-                            repo.importGtfs("EMTU") { status: String ->
-                                requireActivity().runOnUiThread {
-                                    _binding?.tvBannerMsg?.text = status
-                                }
-                            }
-                            prefs.edit { putString("gtfs_emtu_version", remoteEmtu) }
-                            requireActivity().runOnUiThread {
-                                _binding?.bannerAtualizacao?.visibility = View.GONE
-                            }
-                        }
+                        executarImportacao(prefs, "EMTU", remoteEmtu)
                     }
                 )
             }
+        }
+    }
+
+    // Função auxiliar para evitar repetição de código (Refatoração)
+    private fun executarImportacao(prefs: android.content.SharedPreferences, tipo: String, versao: String) {
+        lifecycleScope.launch {
+            _binding?.bannerAtualizacao?.isEnabled = false
+            val repo = GtfsRepository(requireContext())
+            repo.importGtfs(tipo) { status: String ->
+                requireActivity().runOnUiThread {
+                    _binding?.tvBannerMsg?.text = status
+                }
+            }
+            prefs.edit { putString("gtfs_${tipo.lowercase()}_version", versao) }
+            requireActivity().runOnUiThread {
+                _binding?.bannerAtualizacao?.visibility = View.GONE
+            }
+            if (tipo == "SPTRANS") verificarEmtu(prefs)
         }
     }
 

@@ -5,8 +5,12 @@ data class Linha(
     val nome: String,
     val cor: String,
     val empresa: String,
-    val status: String = "Carregando...",
-    val classificacao: String = "desconhecido",
-    val descricao: String = "",
-    val atualizadoHa: String = ""
+    val status: Status = Status("Carregando...", "desconhecido", "", "")
+)
+
+data class Status(
+    val situacao: String,
+    val classificacao: String,
+    val descricao: String,
+    val atualizadoHa: String
 )

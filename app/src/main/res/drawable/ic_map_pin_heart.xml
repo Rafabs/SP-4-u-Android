@@ -1,0 +1,17 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    android:tint="#FFFFFF">
+
+    <!-- O Pin (Marcador) -->
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M12,2c-4.2,0 -8,3.22 -8,8.2c0,3.18 2.45,6.92 7.34,11.23c0.38,0.33 0.95,0.33 1.33,0C17.55,17.12 20,13.38 20,10.2C20,5.22 16.2,2 12,2zM12,19.33c-4.05,-3.7 -6,-6.79 -6,-9.13C6,6.37 8.56,4 12,4s6,2.37 6,6.2C18,12.54 16.05,15.63 12,19.33z"/>
+
+    <!-- O Coração centralizado -->
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M12,13.5l-0.39,-0.35C10.22,11.85 9,10.74 9,9.41C9,8.32 9.82,7.5 10.91,7.5c0.61,0 1.2,0.29 1.59,0.74c0.39,-0.45 0.98,-0.74 1.59,-0.74C15.18,7.5 16,8.32 16,9.41c0,1.33 -1.22,2.44 -2.61,3.74L12,13.5z"/>
+</vector>

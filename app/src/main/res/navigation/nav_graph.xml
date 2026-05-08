@@ -10,19 +10,29 @@
         android:label="@string/nav_home" />
 
     <fragment
+        android:id="@+id/MapredeFragment"
+        android:name="com.rafabs.sp4u.ui.maprede.MapRedeFragment"
+        android:label="Mapa da Rede" />
+
+    <fragment
+        android:id="@+id/newsFragment"
+        android:name="com.rafabs.sp4u.ui.news.NewsFragment"
+        android:label="Notícias" />
+
+    <fragment
         android:id="@+id/sptransFragment"
         android:name="com.rafabs.sp4u.ui.sptrans.SptransFragment"
         android:label="SPTrans" />
 
     <fragment
-        android:id="@+id/artespFragment"
-        android:name="com.rafabs.sp4u.ui.artesp.ArtespFragment"
-        android:label="@string/nav_artesp" />
-
-    <fragment
         android:id="@+id/aqiFragment"
         android:name="com.rafabs.sp4u.ui.aqi.AqiFragment"
         android:label="@string/nav_aqi" />
+
+    <fragment
+        android:id="@+id/turismoFragment"
+        android:name="com.rafabs.sp4u.ui.explore.TurismoFragment"
+        android:label="Turismo" />
 
     <fragment
         android:id="@+id/exploreFragment"
