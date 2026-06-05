@@ -10,5 +10,5 @@ data class Route(
     val longName: String,
     val color: String,
     val textColor: String,
-    val source: String  // "SPTRANS" ou "ARTESP"
+    val source: String
 )

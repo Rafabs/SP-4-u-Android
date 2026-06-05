@@ -43,8 +43,6 @@ class AqiFragment : Fragment(R.layout.fragment_aqi) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Corrigido: Usando a forma moderna de carregar as configurações do OSMDroid
-        // Substitui o PreferenceManager depreciado
         val sharedPrefs = requireContext().getSharedPreferences("osmdroid", Context.MODE_PRIVATE)
         Configuration.getInstance().load(requireContext(), sharedPrefs)
         Configuration.getInstance().userAgentValue = "Sampa4u-App"

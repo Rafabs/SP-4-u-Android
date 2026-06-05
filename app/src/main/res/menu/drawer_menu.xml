@@ -14,6 +14,11 @@
             android:title="Mapa da Rede" />
 
         <item
+            android:id="@+id/OlhovivoFragment"
+            android:icon="@drawable/ic_eye_tracking"
+            android:title="Olho Vivo" />
+
+        <item
             android:id="@+id/newsFragment"
             android:icon="@drawable/ic_newspaper"
             android:title="Notícias" />

@@ -24,6 +24,14 @@ interface RouteDao {
     @Query("SELECT * FROM routes WHERE source = :source ORDER BY shortName ASC")
     fun getRoutesBySource(source: String): Flow<List<Route>>
 
+    @Query("SELECT * FROM routes LIMIT 5")
+    suspend fun getSampleAll(): List<Route>
+
+    @Query("SELECT * FROM routes WHERE shortName LIKE :letreiro || '%' AND source = :source LIMIT 1")
+    suspend fun getRouteByLetreiro(letreiro: String, source: String): Route?
+
+    @Query("SELECT routeId FROM routes WHERE shortName LIKE :letreiro || '%' AND source = :source LIMIT 1")
+    suspend fun getRouteIdByLetreiro(letreiro: String, source: String): String?
     @Query("DELETE FROM routes WHERE source = :source")
     suspend fun deleteBySource(source: String)
 }

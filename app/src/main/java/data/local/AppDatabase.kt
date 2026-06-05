@@ -7,27 +7,29 @@ import androidx.room.RoomDatabase
 import com.rafabs.sp4u.data.local.dao.RouteDao
 import com.rafabs.sp4u.data.local.dao.ShapeDao
 import com.rafabs.sp4u.data.local.dao.StopDao
+import com.rafabs.sp4u.data.local.dao.TripDao
 import com.rafabs.sp4u.data.local.entity.Route
 import com.rafabs.sp4u.data.local.entity.Shape
 import com.rafabs.sp4u.data.local.entity.Stop
-import com.rafabs.sp4u.data.local.entity.Trip
 import com.rafabs.sp4u.data.local.entity.StopTime
+import com.rafabs.sp4u.data.local.entity.Trip
 
 @Database(
     entities = [
-        Route::class, 
-        Stop::class, 
-        Shape::class, 
-        Trip::class, 
+        Route::class,
+        Stop::class,
+        Shape::class,
+        Trip::class,
         StopTime::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun routeDao(): RouteDao
     abstract fun stopDao(): StopDao
     abstract fun shapeDao(): ShapeDao
+    abstract fun tripDao(): TripDao
 
     companion object {
         @Volatile private var INSTANCE: AppDatabase? = null
@@ -38,7 +40,10 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "sp4u_database"
-                ).build().also { INSTANCE = it }
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
+                    .also { INSTANCE = it }
             }
         }
     }

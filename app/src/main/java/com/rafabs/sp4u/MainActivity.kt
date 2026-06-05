@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.homeFragment,
                 R.id.newsFragment,
                 R.id.MapredeFragment,
+                R.id.OlhovivoFragment,
                 R.id.sptransFragment,
                 R.id.aqiFragment,
                 R.id.exploreFragment,

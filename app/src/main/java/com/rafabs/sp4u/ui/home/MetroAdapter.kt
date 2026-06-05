@@ -52,8 +52,7 @@ class MetroAdapter(
                     Pair(R.drawable.badge_status_yellow, "#FFC107")
                 }
                 situacaoTexto.contains("paralisada") ||
-                        situacaoTexto.contains("interrompida") ||
-                        situacaoTexto.contains("encerrada") -> {
+                        situacaoTexto.contains("interrompida")-> {
                     Pair(R.drawable.badge_status_red, "#FF3B30")
                 }
                 else -> Pair(R.drawable.badge_status_gray, "#9E9E9E")
