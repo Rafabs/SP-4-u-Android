@@ -23,8 +23,12 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.annotation.DrawableRes
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -103,7 +107,7 @@ class OlhoVivoFragment : Fragment(R.layout.fragment_olhovivo) {
         primeiraAtualizacao = true
         prefixoSelecionado = null
         pararAtualizacaoTempReal()
-        desenharShapeDaLinha(linha.lt) // ← adicione aqui
+        desenharShapeDaLinha(linha.lt, linha.sl)
         runnable = Runnable {
             buscarPosicaoOnibus(linha.cl)
             handler.postDelayed(runnable!!, INTERVALO_MS)
@@ -159,26 +163,40 @@ class OlhoVivoFragment : Fragment(R.layout.fragment_olhovivo) {
         })
     }
 
-    private fun desenharShapeDaLinha(letreiro: String) {
+    private fun desenharShapeDaLinha(letreiro: String, sentido: Int) {
         val db = AppDatabase.getDatabase(requireContext())
         CoroutineScope(Dispatchers.IO).launch {
+
             val sample = db.routeDao().getSampleAll()
-            Log.d("SHAPE", "sampleAll=$sample")
+            Log.d("SHAPE", "Sample routes: ${sample.map { "${it.shortName} | ${it.longName}" }}")
 
             val route = db.routeDao().getRouteByLetreiro(letreiro, "SPTRANS")
-            Log.d("SHAPE", "letreiro=$letreiro route=$route")
+            Log.d("SHAPE", "letreiro=$letreiro sentido=$sentido route=$route")
             if (route == null) return@launch
 
-            val shapeId = db.tripDao().getShapeIdForRoute(route.routeId)
+            val directionId = if (sentido == 1) 0 else 1
+            Log.d("SHAPE", "routeId=${route.routeId} directionId=$directionId")
+
+            val shapeId = db.tripDao().getShapeIdForRouteAndDirection(route.routeId, directionId)
             Log.d("SHAPE", "shapeId=$shapeId")
-            if (shapeId == null) return@launch
+            if (shapeId == null) {
+                // Tenta sem filtro de sentido para ver se tem algum shape
+                val shapeIdSemFiltro = db.tripDao().getShapeIdForRoute(route.routeId)
+                Log.d("SHAPE", "shapeId SEM filtro=$shapeIdSemFiltro")
+                return@launch
+            }
 
             val points = db.shapeDao().getShapePoints(shapeId)
             Log.d("SHAPE", "points=${points.size}")
             if (points.isEmpty()) return@launch
 
             val geoPoints = points.map { GeoPoint(it.shapePtLat, it.shapePtLon) }
-            val color = try { route.color.toColorInt() } catch (e: Exception) { Color.BLUE }
+            val color = try {
+                val hex = route.color ?: "0000FF"
+                if (hex.startsWith("#")) hex.toColorInt() else "#$hex".toColorInt()
+            } catch (e: Exception) {
+                Color.BLUE
+            }
 
             activity?.runOnUiThread {
                 polylinhaAtual?.let { mapView.overlays.remove(it) }
@@ -188,7 +206,7 @@ class OlhoVivoFragment : Fragment(R.layout.fragment_olhovivo) {
                     outlinePaint.strokeWidth = 8f
                 }
                 polylinhaAtual = polyline
-                mapView.overlays.add(0, polyline) // adiciona abaixo dos marcadores
+                mapView.overlays.add(0, polyline)
                 mapView.invalidate()
             }
         }
@@ -197,15 +215,26 @@ class OlhoVivoFragment : Fragment(R.layout.fragment_olhovivo) {
     private fun buscarPosicaoOnibus(codigoLinha: Int) {
         RetrofitClient.instance.getPosicoes(codigoLinha).enqueue(object : Callback<PosicaoResponse> {
             override fun onResponse(call: Call<PosicaoResponse>, response: Response<PosicaoResponse>) {
-                Log.d("OLHO_VIVO", "getPosicoes response: ${response.code()} body: ${response.body()}")
-                if (response.isSuccessful) {
-                    val veiculos = response.body()?.vs ?: emptyList()
-                    Log.d("OLHO_VIVO", "Veículos recebidos: ${veiculos.size}")
-                    veiculos.forEach { Log.d("OLHO_VIVO", "Veículo: ${it.p} lat=${it.py} lon=${it.px}") }
-                    desenharVeiculosNoMapa(veiculos)
-                    buscarParadasEDesenhar(codigoLinha)
-                } else {
-                    Log.e("OLHO_VIVO", "Erro response: ${response.code()} ${response.errorBody()?.string()}")
+                if (!response.isSuccessful) return
+                val veiculos = response.body()?.vs ?: emptyList()
+
+                val letreiro = linhaSelecionada?.lt ?: ""
+                val db = AppDatabase.getDatabase(requireContext())
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    val route = db.routeDao().getRouteByLetreiro(letreiro, "SPTRANS")
+                    val corHex = route?.color
+                    val corLinha = try {
+                        if (corHex != null) "#$corHex".toColorInt()
+                        else Color.parseColor("#1A73E8")
+                    } catch (e: Exception) {
+                        Color.parseColor("#1A73E8")
+                    }
+
+                    activity?.runOnUiThread {
+                        desenharVeiculosNoMapa(veiculos, corLinha)
+                        buscarParadasEDesenhar(codigoLinha)
+                    }
                 }
             }
             override fun onFailure(call: Call<PosicaoResponse>, t: Throwable) {
@@ -214,14 +243,49 @@ class OlhoVivoFragment : Fragment(R.layout.fragment_olhovivo) {
         })
     }
 
+    private fun criarIconeOnibusColorido(corLinha: Int): Drawable {
+        val original = BitmapFactory.decodeResource(resources, R.drawable.veiculo)
+        val bitmap = original.copy(Bitmap.Config.ARGB_8888, true)
+
+        val corAlvo = Color.parseColor("#D32F2F") // vermelho original do seu PNG
+        val tolerancia = 80 // quanto de variação aceitar (0-255)
+
+        for (x in 0 until bitmap.width) {
+            for (y in 0 until bitmap.height) {
+                val pixel = bitmap.getPixel(x, y)
+                val alpha = Color.alpha(pixel)
+                if (alpha < 20) continue // ignora pixels transparentes
+
+                if (isSimilar(pixel, corAlvo, tolerancia)) {
+                    // Mantém o alpha original, troca o RGB pela cor da linha
+                    val novaCorComAlpha = ColorUtils.setAlphaComponent(corLinha, alpha)
+                    bitmap.setPixel(x, y, novaCorComAlpha)
+                }
+            }
+        }
+
+        return BitmapDrawable(resources, bitmap)
+    }
+
+    private fun isSimilar(c1: Int, c2: Int, tolerancia: Int): Boolean {
+        return Math.abs(Color.red(c1) - Color.red(c2)) < tolerancia &&
+                Math.abs(Color.green(c1) - Color.green(c2)) < tolerancia &&
+                Math.abs(Color.blue(c1) - Color.blue(c2)) < tolerancia
+    }
+
     private var linhaSelecionada: LinhaBusca? = null
     private var prefixoSelecionado: String? = null
 
-    private fun desenharVeiculosNoMapa(veiculos: List<Veiculo>) {
+    private fun desenharVeiculosNoMapa(veiculos: List<Veiculo>, corLinha: Int) {
         activity?.runOnUiThread {
-            mapView.overlays.clear()
-            polylinhaAtual?.let { mapView.overlays.add(0, it) }
-            locationOverlay?.let { mapView.overlays.add(it) }
+            // Em vez de limpar tudo, filtramos e removemos apenas os marcadores antigos
+            // para não interferir com a polilinha que roda em outra thread
+            val marcadoresAntigos = mapView.overlays.filterIsInstance<Marker>()
+            mapView.overlays.removeAll(marcadoresAntigos)
+
+            // Garante que a polilinha e a localização continuem no mapa
+            polylinhaAtual?.let { if (!mapView.overlays.contains(it)) mapView.overlays.add(0, it) }
+            locationOverlay?.let { if (!mapView.overlays.contains(it)) mapView.overlays.add(it) }
 
             var markerParaReabrir: Marker? = null
 
@@ -231,7 +295,7 @@ class OlhoVivoFragment : Fragment(R.layout.fragment_olhovivo) {
                     position = GeoPoint(veiculo.py, veiculo.px)
                     title = "Linha ${linhaSelecionada?.lt ?: ""} • Veículo ${veiculo.p}\n$destino"
                     snippet = if (veiculo.a) "♿ Acessível: Sim" else "🚫 Acessível: Não"
-                    icon = getDrawableIcon(R.drawable.veiculo)
+                    icon = getIconeOnibus(corLinha)
                     setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
                     setOnMarkerClickListener { m, _ ->
                         prefixoSelecionado = veiculo.p
@@ -254,6 +318,14 @@ class OlhoVivoFragment : Fragment(R.layout.fragment_olhovivo) {
         }
     }
 
+    private val cacheIcones = mutableMapOf<Int, Drawable>()
+
+    private fun getIconeOnibus(corLinha: Int): Drawable {
+        return cacheIcones.getOrPut(corLinha) {
+            criarIconeOnibusColorido(corLinha)
+        }
+    }
+
     private fun getDrawableIcon(@DrawableRes resId: Int): Drawable {
         return ResourcesCompat.getDrawable(resources, resId, null)!!
     }
@@ -262,20 +334,37 @@ class OlhoVivoFragment : Fragment(R.layout.fragment_olhovivo) {
         binding.recyclerViewLines.layoutManager = LinearLayoutManager(context)
 
         var ultimaBusca = 0L
-        binding.searchButton.setOnClickListener {
+
+        fun dispararBusca() {
             val agora = System.currentTimeMillis()
-            if (agora - ultimaBusca < 1000) return@setOnClickListener
+            if (agora - ultimaBusca < 1000) return
             ultimaBusca = agora
 
             // Esconde o teclado
             val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
             imm.hideSoftInputFromWindow(binding.searchEditText.windowToken, 0)
 
-            val termo = binding.searchEditText.text.toString()
+            val termo = binding.searchEditText.text.toString().trim()
             if (termo.length >= 3) {
                 efetuarBuscaDeLinha(termo)
             } else {
                 Toast.makeText(context, "Digite pelo menos 3 caracteres", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        binding.searchButton.setOnClickListener {
+            dispararBusca()
+        }
+
+        // Corrigido o pacote para 'inputmethod'
+        binding.searchEditText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH ||
+                actionId == android.view.inputmethod.EditorInfo.IME_ACTION_DONE ||
+                actionId == android.view.inputmethod.EditorInfo.IME_NULL) {
+                dispararBusca()
+                true
+            } else {
+                false
             }
         }
     }
@@ -294,17 +383,21 @@ class OlhoVivoFragment : Fragment(R.layout.fragment_olhovivo) {
 
     private fun desenharParadasNoMapa(paradas: List<Parada>) {
         activity?.runOnUiThread {
+            // Garante que a polilinha permaneça embaixo de tudo
+            polylinhaAtual?.let { if (!mapView.overlays.contains(it)) mapView.overlays.add(0, it) }
+
             paradas.forEach { parada ->
-                val marker = Marker(mapView)
-                marker.position = GeoPoint(parada.py, parada.px)
-                marker.title = parada.np
-                marker.snippet = parada.ed
-                marker.icon = getDrawableIcon(R.drawable.parada_onibus)
-                marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
+                val marker = Marker(mapView).apply {
+                    position = GeoPoint(parada.py, parada.px)
+                    title = parada.np
+                    snippet = parada.ed
+                    icon = getDrawableIcon(R.drawable.parada_onibus)
+                    setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
+                }
                 mapView.overlays.add(marker)
             }
             mapView.invalidate()
-            Log.d("OLHO_VIVO", "Paradas desenhadas: ${paradas.size}")
+            Log.d("SHAPE", "Paradas desenhadas na tela: ${paradas.size}")
         }
     }
 

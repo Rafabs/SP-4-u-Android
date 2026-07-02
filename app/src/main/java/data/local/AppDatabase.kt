@@ -22,7 +22,7 @@ import com.rafabs.sp4u.data.local.entity.Trip
         Trip::class,
         StopTime::class
     ],
-    version = 2,
+    version = 3, // ← Atualizar DB ao fazer alterações
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

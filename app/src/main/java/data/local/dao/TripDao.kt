@@ -14,6 +14,9 @@ interface TripDao {
     @Query("SELECT shapeId FROM trips WHERE routeId = :routeId LIMIT 1")
     suspend fun getShapeIdForRoute(routeId: String): String?
 
+    @Query("SELECT shapeId FROM trips WHERE routeId = :routeId AND directionId = :directionId LIMIT 1")
+    suspend fun getShapeIdForRouteAndDirection(routeId: String, directionId: Int): String?
+
     @Query("DELETE FROM trips WHERE source = :source")
     suspend fun deleteBySource(source: String)
 }

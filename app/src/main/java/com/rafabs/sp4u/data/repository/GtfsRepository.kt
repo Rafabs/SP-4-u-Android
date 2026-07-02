@@ -111,7 +111,7 @@ class GtfsRepository(private val context: Context) {
                 val tripId  = row["trip_id"]  ?: return@forEach
                 val routeId = row["route_id"] ?: return@forEach
                 val shapeId = row["shape_id"] ?: return@forEach
-                trips.add(Trip(tripId = tripId, routeId = routeId, shapeId = shapeId, source = source))
+                trips.add(Trip(tripId = tripId, routeId = routeId, shapeId = shapeId, source = source, directionId = row["direction_id"]?.toIntOrNull() ?: 0))
             }
         }
         return trips

@@ -28,11 +28,6 @@
         android:label="Notícias" />
 
     <fragment
-        android:id="@+id/sptransFragment"
-        android:name="com.rafabs.sp4u.ui.sptrans.SptransFragment"
-        android:label="SPTrans" />
-
-    <fragment
         android:id="@+id/aqiFragment"
         android:name="com.rafabs.sp4u.ui.aqi.AqiFragment"
         android:label="@string/nav_aqi" />

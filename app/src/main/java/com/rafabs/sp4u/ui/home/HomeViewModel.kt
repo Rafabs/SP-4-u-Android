@@ -20,7 +20,7 @@ class HomeViewModel : ViewModel() {
         Linha("L03", "03 - Vermelha",  "#EE372F", "METRÔ"),
         Linha("L04", "04 - Amarela",   "#FFF000", "VIAQUATRO"),
         Linha("L05", "05 - Lilás",     "#9B3894", "VIAMOBILIDADE"),
-        Linha("L06", "06 - Laranja",   "#000000", "LINHA UNI"),
+        Linha("L06", "06 - Laranja",   "#F37321", "LINHA UNI"),
         Linha("L07", "07 - Rubi",      "#CA016B", "TIC TRENS"),
         Linha("L08", "08 - Diamante",  "#97A098", "VIAMOBILIDADE"),
         Linha("L09", "09 - Esmeralda", "#01A9A7", "VIAMOBILIDADE"),
@@ -29,7 +29,7 @@ class HomeViewModel : ViewModel() {
         Linha("L12", "12 - Safira",    "#133C8D", "CPTM"),
         Linha("L13", "13 - Jade",      "#00B352", "CPTM"),
         Linha("L15", "15 - Prata",     "#C0C0C0", "METRÔ"),
-        Linha("L17", "17 - Ouro",      "#000000", "METRÔ")
+        Linha("L17", "17 - Ouro",      "#917F57", "METRÔ")
     )
 
     private val _linhas = MutableLiveData<List<Linha>>(linhasBase)
@@ -54,15 +54,13 @@ class HomeViewModel : ViewModel() {
                     _linhas.value = linhasBase.map { linha ->
                         val triple = statusMap[linha.codigo]
 
-                        // Criamos o objeto Status conforme o novo Linha.kt
                         val novoStatus = Status(
-                            situacao = triple?.first ?: "Sem informação",
+                            situacao      = triple?.first  ?: "Sem informacao",
                             classificacao = triple?.second ?: "desconhecido",
-                            descricao = triple?.third ?: "",
-                            atualizadoHa = "" // Pode deixar vazio ou mapear se o triple tiver 4 valores
+                            descricao     = "",
+                            atualizadoHa  = triple?.third  ?: ""
                         )
 
-                        // Agora o copy recebe apenas o campo 'status' que é o objeto Status
                         linha.copy(status = novoStatus)
                     }
                     _erro.value = null

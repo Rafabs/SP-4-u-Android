@@ -8,5 +8,6 @@ data class Trip(
     @PrimaryKey val tripId: String,
     val routeId: String,
     val shapeId: String,
-    val source: String
+    val source: String,
+    val directionId: Int = 0
 )

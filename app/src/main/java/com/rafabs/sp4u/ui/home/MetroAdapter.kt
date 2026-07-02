@@ -48,6 +48,7 @@ class MetroAdapter(
                         situacaoTexto.contains("intervalos") ||
                         situacaoTexto.contains("parcial") ||
                         situacaoTexto.contains("atividade") ||
+                        situacaoTexto.contains("circulação") ||
                         situacaoTexto.contains("impacto") -> {
                     Pair(R.drawable.badge_status_yellow, "#FFC107")
                 }

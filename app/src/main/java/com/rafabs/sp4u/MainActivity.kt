@@ -10,7 +10,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.rafabs.sp4u.databinding.ActivityMainBinding
 import com.rafabs.sp4u.BuildConfig
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -35,7 +34,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.newsFragment,
                 R.id.MapredeFragment,
                 R.id.OlhovivoFragment,
-                R.id.sptransFragment,
                 R.id.aqiFragment,
                 R.id.exploreFragment,
                 R.id.turismoFragment
