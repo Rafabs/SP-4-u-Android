@@ -3,6 +3,7 @@ package com.rafabs.sp4u.ui.home
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.DiffUtil
@@ -21,7 +22,6 @@ class MetroAdapter(
 
         fun bind(linha: Linha, onItemClick: (Linha) -> Unit) {
             binding.tvNome.text = linha.nome
-            binding.tvHex.text = linha.cor
             binding.tvEmpresa.text = linha.empresa
 
             // Usando .toColorInt() do KTX para ser mais idiomático
@@ -29,13 +29,25 @@ class MetroAdapter(
                 shape = GradientDrawable.OVAL
                 try {
                     setColor(linha.cor.toColorInt())
-                } catch (_: Exception) { // "_" remove o aviso de parâmetro não utilizado
+                } catch (_: Exception) {
                     setColor(Color.GRAY)
                 }
             }
             binding.viewCor.background = circle
 
-            // Se o erro de "Unresolved reference" persistir, verifique se no seu Model
+            // Imagem light/dark
+            val isDark = (binding.root.context.resources.configuration.uiMode and
+                    android.content.res.Configuration.UI_MODE_NIGHT_MASK) ==
+                    android.content.res.Configuration.UI_MODE_NIGHT_YES
+
+            val imagemRes = if (isDark) linha.imagemDark else linha.imagemLight
+            if (imagemRes != null) {
+                binding.imgLinha.visibility = View.VISIBLE
+                binding.imgLinha.setImageResource(imagemRes)
+            } else {
+                binding.imgLinha.visibility = View.GONE
+            }
+
             // a classe Linha tem um "val status: Status" e se "Status" tem "situacao"
             val statusObjeto = linha.status
             val situacaoTexto = statusObjeto.situacao.lowercase()

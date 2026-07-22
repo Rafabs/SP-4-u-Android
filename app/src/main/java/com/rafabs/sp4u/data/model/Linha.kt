@@ -5,6 +5,8 @@ data class Linha(
     val nome: String,
     val cor: String,
     val empresa: String,
+    val imagemLight: Int? = null,
+    val imagemDark: Int? = null,
     val status: Status = Status("Carregando...", "desconhecido", "", "")
 )
 
