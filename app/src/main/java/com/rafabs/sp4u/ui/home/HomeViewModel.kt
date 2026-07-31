@@ -21,7 +21,7 @@ class HomeViewModel : ViewModel() {
         Linha("L03", "03 - Vermelha",  "#EE372F", "METRÔ", R.drawable.black_metro, R.drawable.white_metro),
         Linha("L04", "04 - Amarela",   "#FFF000", "MOTIVA", R.drawable.black_motiva, R.drawable.white_motiva),
         Linha("L05", "05 - Lilás",     "#9B3894", "MOTIVA", R.drawable.black_motiva, R.drawable.white_motiva),
-        Linha("L06", "06 - Laranja",   "#F37321", "LINHA UNI", R.drawable.black_linha_uni, R.drawable.white_linha_uni),
+        Linha("L06", "06 - Laranja",   "#FF6600", "LINHA UNI", R.drawable.black_linha_uni, R.drawable.white_linha_uni),
         Linha("L07", "07 - Rubi",      "#CA016B", "TIC TRENS", R.drawable.black_tic_trens, R.drawable.white_tic_trens),
         Linha("L08", "08 - Diamante",  "#97A098", "MOTIVA", R.drawable.black_motiva, R.drawable.white_motiva),
         Linha("L09", "09 - Esmeralda", "#01A9A7", "MOTIVA", R.drawable.black_motiva, R.drawable.white_motiva),
@@ -30,7 +30,7 @@ class HomeViewModel : ViewModel() {
         Linha("L12", "12 - Safira",    "#133C8D", "TRIVIA", R.drawable.black_trivia, R.drawable.white_trivia),
         Linha("L13", "13 - Jade",      "#00B352", "TRIVIA", R.drawable.black_trivia, R.drawable.white_trivia),
         Linha("L15", "15 - Prata",     "#C0C0C0", "METRÔ", R.drawable.black_metro, R.drawable.white_metro),
-        Linha("L17", "17 - Ouro",      "#917F57", "METRÔ", R.drawable.black_metro, R.drawable.white_metro),
+        Linha("L17", "17 - Ouro",      "#D48500", "METRÔ", R.drawable.black_metro, R.drawable.white_metro),
     )
 
     private val _linhas = MutableLiveData<List<Linha>>(linhasBase)
@@ -56,7 +56,7 @@ class HomeViewModel : ViewModel() {
                         val triple = statusMap[linha.codigo]
 
                         val novoStatus = Status(
-                            situacao      = triple?.first  ?: "Sem informacao",
+                            situacao      = triple?.first  ?: "Sem informação",
                             classificacao = triple?.second ?: "desconhecido",
                             descricao     = "",
                             atualizadoHa  = triple?.third  ?: ""
