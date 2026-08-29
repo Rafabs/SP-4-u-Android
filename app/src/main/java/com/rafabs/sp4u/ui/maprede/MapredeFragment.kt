@@ -18,7 +18,6 @@ class MapRedeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Agora inflamos usando o novo nome do XML
         _binding = FragmentMapredeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -26,7 +25,6 @@ class MapRedeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // URL do seu mapa no Figma
         val figmaEmbedUrl = "https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FdV6TZhnCs7CmzCyIP2aPA8%2FMapa-do-Transporte-Metropolitano%3Fnode-id%3D0-1"
 
         // Configuração da WebView
